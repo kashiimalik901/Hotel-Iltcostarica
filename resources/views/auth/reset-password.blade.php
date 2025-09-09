@@ -103,8 +103,7 @@
                            value="{{ old('email', $request->email) }}"
                            placeholder="Email address" 
                            required 
-                           readonly
-                           autofocus />
+                           readonly />
                     @error('email')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -117,7 +116,8 @@
                            id="password"
                            name="password"
                            placeholder="New Password" 
-                           required />
+                           required 
+                           autofocus />
                     @error('password')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
