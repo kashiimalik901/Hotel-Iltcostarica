@@ -124,7 +124,7 @@
                   </div>
                 </a>
                 <!-- parent pages-->
-                <a class="nav-link" href="{{ route('admin.customers.index') }}" role="button">
+                <a class="nav-link" href="#" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-users"></i>
