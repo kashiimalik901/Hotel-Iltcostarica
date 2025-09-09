@@ -97,8 +97,7 @@
                   </div>
                 </div>
                 <!-- parent pages-->
-                <!-- <a class="nav-link" href="{{ route('admin.hotels.index') }}" role="button"> -->
-                <a class="nav-link" href="{{ route('admin.dashboard') }}" role="button">
+                <a class="nav-link" href="{{ route('admin.hotels.index') }}" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-building"></i>
@@ -107,8 +106,7 @@
                   </div>
                 </a>
                 <!-- parent pages-->
-                <!-- <a class="nav-link" href="{{ route('admin.rooms.index') }}" role="button"> -->
-                <a class="nav-link" href="{{ route('admin.dashboard') }}" role="button">
+                <a class="nav-link" href="{{ route('admin.rooms.index') }}" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-bed"></i>
@@ -117,8 +115,7 @@
                   </div>
                 </a>
                 <!-- parent pages-->
-                <!-- <a class="nav-link" href="{{ route('admin.bookings.index') }}" role="button"> -->
-                <a class="nav-link" href="{{ route('admin.boodashboard') }}" role="button">
+                <a class="nav-link" href="{{ route('admin.bookings.index') }}" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-calendar-check"></i>
@@ -127,8 +124,7 @@
                   </div>
                 </a>
                 <!-- parent pages-->
-                <!-- <a class="nav-link" href="{{ route('admin.customers.index') }}" role="button"> -->
-                <a class="nav-link" href="{{ route('admin.custdashboard') }}" role="button">
+                <a class="nav-link" href="{{ route('admin.customers.index') }}" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-users"></i>
