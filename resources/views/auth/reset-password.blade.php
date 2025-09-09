@@ -88,8 +88,7 @@
                   </div>
                 @endif
 
-                <form class="mt-3" method="POST" action="{{ route('password.update') }}">
-                  @method('PUT')
+                <form class="mt-3" method="POST" action="{{ route('password.store') }}">
                   @csrf
                   
                   <!-- Password Reset Token -->

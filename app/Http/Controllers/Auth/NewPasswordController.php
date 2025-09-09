@@ -36,12 +36,22 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Log the request data for debugging
+        \Log::info('Password reset attempt', [
+            'email' => $request->email,
+            'token' => $request->token,
+            'has_password' => !empty($request->password),
+            'has_password_confirmation' => !empty($request->password_confirmation)
+        ]);
+
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user) use ($request) {
+                \Log::info('Password reset callback executed', ['user_id' => $user->id, 'email' => $user->email]);
+                
                 $user->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),
@@ -50,6 +60,8 @@ class NewPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+        \Log::info('Password reset status', ['status' => $status]);
 
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
