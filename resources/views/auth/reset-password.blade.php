@@ -103,6 +103,7 @@
                            value="{{ old('email', $request->email) }}"
                            placeholder="Email address" 
                            required 
+                           readonly
                            autofocus />
                     @error('email')
                       <div class="invalid-feedback">{{ $message }}</div>
