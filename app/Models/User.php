@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable implements CanResetPasswordContract
 {
@@ -73,5 +74,18 @@ class User extends Authenticatable implements CanResetPasswordContract
     public function hasAnyRole(array $roles): bool
     {
         return in_array($this->role?->name, $roles);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $notification = new ResetPasswordNotification($token);
+        $notification->setRecipientEmail($this->email);
+        $this->notify($notification);
     }
 }
