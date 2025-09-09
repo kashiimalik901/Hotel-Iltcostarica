@@ -6,10 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\HtmlString;
-use SendGrid;
-use SendGrid\Mail\Mail;
-use Exception;
 
 class ResetPasswordNotification extends Notification
 {
@@ -55,6 +51,11 @@ class ResetPasswordNotification extends Notification
      */
     public function via($notifiable)
     {
+        // Check if SendGrid is configured
+        if (config('services.sendgrid.api_key')) {
+            return ['sendgrid'];
+        }
+        
         return ['mail'];
     }
 
@@ -71,6 +72,27 @@ class ResetPasswordNotification extends Notification
         }
 
         return $this->buildMailMessage($this->resetUrl($notifiable));
+    }
+
+    /**
+     * Get the SendGrid representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toSendGrid($notifiable)
+    {
+        $url = $this->resetUrl($notifiable);
+        
+        return [
+            'from' => [
+                'address' => config('mail.from.address', 'noreply@example.com'),
+                'name' => config('mail.from.name', config('app.name'))
+            ],
+            'subject' => 'Password Reset Request - ' . config('app.name'),
+            'html' => $this->buildHtmlContent($url),
+            'text' => $this->buildTextContent($url)
+        ];
     }
 
     /**
@@ -99,20 +121,6 @@ class ResetPasswordNotification extends Notification
      */
     protected function buildMailMessage($url)
     {
-        // Try to send via SendGrid first
-        if ($this->sendViaSendGrid($url)) {
-            // If SendGrid succeeds, return a simple message
-            return (new MailMessage)
-                ->subject('Password Reset Request')
-                ->greeting('Hello!')
-                ->line('You are receiving this email because we received a password reset request for your account.')
-                ->action('Reset Password', $url)
-                ->line('This password reset link will expire in 60 minutes.')
-                ->line('If you did not request a password reset, no further action is required.')
-                ->salutation('Regards, ' . config('app.name'));
-        }
-
-        // Fallback to default Laravel mail
         return (new MailMessage)
             ->subject('Password Reset Request')
             ->greeting('Hello!')
@@ -121,58 +129,6 @@ class ResetPasswordNotification extends Notification
             ->line('This password reset link will expire in 60 minutes.')
             ->line('If you did not request a password reset, no further action is required.')
             ->salutation('Regards, ' . config('app.name'));
-    }
-
-    /**
-     * Send email via SendGrid
-     *
-     * @param  string  $url
-     * @return bool
-     */
-    protected function sendViaSendGrid($url)
-    {
-        try {
-            $apiKey = config('services.sendgrid.api_key');
-            
-            if (!$apiKey) {
-                \Log::warning('SendGrid API key not configured');
-                return false;
-            }
-
-            $email = new Mail();
-            $email->setFrom(
-                config('mail.from.address', 'noreply@example.com'),
-                config('mail.from.name', config('app.name'))
-            );
-            
-            $email->addTo($this->getRecipientEmail());
-            $email->setSubject('Password Reset Request - ' . config('app.name'));
-            
-            // Create HTML content
-            $htmlContent = $this->buildHtmlContent($url);
-            $email->addContent("text/html", $htmlContent);
-            
-            // Create plain text content
-            $textContent = $this->buildTextContent($url);
-            $email->addContent("text/plain", $textContent);
-
-            $sendgrid = new SendGrid($apiKey);
-            $response = $sendgrid->send($email);
-            
-            if ($response->statusCode() >= 200 && $response->statusCode() < 300) {
-                \Log::info('Password reset email sent successfully via SendGrid');
-                return true;
-            } else {
-                \Log::error('SendGrid email failed', [
-                    'status_code' => $response->statusCode(),
-                    'body' => $response->body()
-                ]);
-                return false;
-            }
-        } catch (Exception $e) {
-            \Log::error('SendGrid email exception: ' . $e->getMessage());
-            return false;
-        }
     }
 
     /**
@@ -248,26 +204,4 @@ class ResetPasswordNotification extends Notification
                config('app.name');
     }
 
-    /**
-     * Get the recipient email address
-     *
-     * @return string
-     */
-    protected function getRecipientEmail()
-    {
-        // This will be set by the User model when sending the notification
-        return $this->recipientEmail ?? 'user@example.com';
-    }
-
-    /**
-     * Set the recipient email address
-     *
-     * @param  string  $email
-     * @return $this
-     */
-    public function setRecipientEmail($email)
-    {
-        $this->recipientEmail = $email;
-        return $this;
-    }
 }

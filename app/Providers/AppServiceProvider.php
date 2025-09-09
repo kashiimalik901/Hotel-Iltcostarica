@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\Channels\SendGridChannel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register SendGrid notification channel
+        Notification::extend('sendgrid', function ($app) {
+            return new SendGridChannel();
+        });
     }
 }

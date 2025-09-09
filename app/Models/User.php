@@ -84,8 +84,6 @@ class User extends Authenticatable implements CanResetPasswordContract
      */
     public function sendPasswordResetNotification($token)
     {
-        $notification = new ResetPasswordNotification($token);
-        $notification->setRecipientEmail($this->email);
-        $this->notify($notification);
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
