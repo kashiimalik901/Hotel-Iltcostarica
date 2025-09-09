@@ -72,18 +72,18 @@
                     <div class="nav-item dropdown">
                         @if (Route::has('login'))
                             @auth
-                                <a class="btn btn-primary btn-sm" href="{{ url('/dashboard') }}">
+                                <a class="btn btn-primary btn-sm" href="{{ url('admin/dashboard') }}">
                                     <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                                 </a>
                             @else
                                 <a class="btn btn-falcon-default btn-sm me-2" href="{{ route('login') }}">
                                     <i class="fas fa-sign-in-alt me-1"></i>Log in
                                 </a>
-                                @if (Route::has('register'))
+                                <!-- @if (Route::has('register'))
                                     <a class="btn btn-primary btn-sm" href="{{ route('register') }}">
                                         <i class="fas fa-user-plus me-1"></i>Register
                                     </a>
-                                @endif
+                                @endif -->
                             @endauth
                         @endif
                     </div>
@@ -130,18 +130,18 @@
                             <div class="d-grid gap-2">
                                 @if (Route::has('login'))
                                     @auth
-                                        <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-lg">
+                                        <a href="{{ url('admin/dashboard') }}" class="btn btn-primary btn-lg">
                                             <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
                                         </a>
                                     @else
                                         <a href="{{ route('login') }}" class="btn btn-primary btn-lg mb-2">
                                             <i class="fas fa-sign-in-alt me-2"></i>Sign In
                                         </a>
-                                        @if (Route::has('register'))
+                                        <!-- @if (Route::has('register'))
                                             <a href="{{ route('register') }}" class="btn btn-outline-primary btn-lg">
                                                 <i class="fas fa-user-plus me-2"></i>Create Account
                                             </a>
-                                        @endif
+                                        @endif -->
                                     @endauth
                                 @endif
                             </div>

@@ -68,7 +68,7 @@
             </script>
             <div class="row flex-center min-vh-100 py-6">
                 <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                    <a class="d-flex flex-center mb-4" href="{{ route('welcome') }}">
+                    <a class="d-flex flex-center mb-4" href="{{ route('login') }}">
                         <img class="me-2" src="{{ asset('falcon/assets/img/icons/spot-illustrations/falcon.png') }}" alt="" width="58" />
                         <span class="font-sans-serif text-primary fw-bolder fs-4 d-inline-block">Hotel Costa Rica</span>
                     </a>
@@ -78,10 +78,10 @@
                                 <div class="col-auto">
                                     <h5>Log in</h5>
                                 </div>
-                                <div class="col-auto fs-10 text-600">
+                                <!-- <div class="col-auto fs-10 text-600">
                                     <span class="mb-0 undefined">or</span> 
                                     <span><a href="{{ route('register') }}">Create an account</a></span>
-                                </div>
+                                </div> -->
                             </div>
 
                             @if ($errors->any())
@@ -143,14 +143,14 @@
                                 </div>
                             </form>
 
-                            @if (Route::has('register'))
+                            <!-- @if (Route::has('register'))
                                 <div class="text-center">
                                     <p class="mb-0 fs-10 text-600">
                                         Don't have an account? 
                                         <a href="{{ route('register') }}">Sign up</a>
                                     </p>
                                 </div>
-                            @endif
+                            @endif -->
                         </div>
                     </div>
                 </div>

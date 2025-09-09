@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('login');
 })->name('welcome');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
