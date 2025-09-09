@@ -98,7 +98,7 @@
                 </div>
                 <!-- parent pages-->
                 <!-- <a class="nav-link" href="{{ route('admin.hotels.index') }}" role="button"> -->
-                <a class="nav-link" href="{{ route('admin.hdashboard') }}" role="button">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}" role="button">
                   <div class="d-flex align-items-center">
                     <span class="nav-link-icon">
                       <i class="fas fa-building"></i>
